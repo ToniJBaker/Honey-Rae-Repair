@@ -10,7 +10,7 @@ export const CustomerNav = () => {
                 <Link className="navbar__link" to="/tickets">Tickets</Link>
             </li>
             <li className="navbar__item active">
-                <Link className="navbar__link" to="/profile">Profile</Link>
+                <Link className="navbar__link" to="/profile">Customer Profile</Link>
             </li>
             
             {

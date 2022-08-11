@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
 import "./Employees.css"
 import {Employee} from "../employees/Employee"
+import { getAllEmployees } from "../ApiManager"
 
 export const EmployeeList = () => {
     const [employees, setEmployees] = useState([])
 
     useEffect (
         ()=> {
-        fetch(`http://localhost:8088/users?isStaff=true`)
-            .then(response => response.json())
+            getAllEmployees() //fetch call
             .then((employeeArray) => {
                 setEmployees(employeeArray)
             })

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { PostNewUser, RegisterUser } from "../ApiManager"
 import "./Login.css"
 
 export const Register = (props) => {
@@ -11,14 +12,8 @@ export const Register = (props) => {
     let navigate = useNavigate()
 
     const registerNewUser = () => {
-        return fetch("http://localhost:8088/users", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(customer)
-        })
-            .then(res => res.json())
+        return (
+        PostNewUser(customer)//fetch call
             .then(createdUser => {
                 if (createdUser.hasOwnProperty("id")) {
                     localStorage.setItem("honey_user", JSON.stringify({
@@ -28,13 +23,12 @@ export const Register = (props) => {
 
                     navigate("/")
                 }
-            })
+            }))
     }
 
     const handleRegister = (e) => {
         e.preventDefault()
-        return fetch(`http://localhost:8088/users?email=${customer.email}`)
-            .then(res => res.json())
+        return ( RegisterUser(customer)//fetch call
             .then(response => {
                 if (response.length > 0) {
                     // Duplicate email. No good.
@@ -44,7 +38,7 @@ export const Register = (props) => {
                     // Good email, create user.
                     registerNewUser()
                 }
-            })
+            }))
     }
 
     const updateCustomer = (evt) => {

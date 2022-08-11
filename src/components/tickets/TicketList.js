@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom"
 import "./Tickets.css"
 import {Ticket} from "../tickets/Ticket"
 import {Link} from "react-router-dom";
+import { getAllServiceTickets, getEmployeesWithUsers } from "../ApiManager";
 
 
 export const TicketList = ({searchTermsState}) => {
@@ -39,20 +40,16 @@ export const TicketList = ({searchTermsState}) => {
     )
     
     const getAllTickets = ()=>{
-        fetch(`http://localhost:8088/serviceTickets?_embed=employeeTickets`)
-            .then (response => response.json())
+            getAllServiceTickets() //fetch call
             .then((ticketArray) =>{
                 setTickets(ticketArray)
             })
     }
 
-
     useEffect(
         () => {
             getAllTickets()
-            
-            fetch(`http://localhost:8088/employees?_expand=user`)
-            .then (response => response.json())
+            getEmployeesWithUsers() //fetch call
             .then((employeeArray) =>{
                 setEmployees(employeeArray)
             })

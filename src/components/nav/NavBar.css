@@ -1,12 +1,16 @@
 .navbar {
+    font-size:large;
     display: flex;
     flex-wrap: nowrap;
     justify-content: left;
+    background-color: rgb(182, 180, 196);
+    height: 2rem;
 }
 
 .navbar__item {
     flex-basis: 20%;
     list-style-type: none;
+
 }
 
 .navbar__logout {

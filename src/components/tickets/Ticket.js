@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { TicketClaim, TicketClose, TicketDelete } from "../ApiManager"
 
 export const Ticket = ({ticketObject, currentUser, employees, getAllTickets}) => {
     
@@ -17,10 +18,7 @@ export const Ticket = ({ticketObject, currentUser, employees, getAllTickets}) =>
     const deleteButton =()=> {
         if(!currentUser.staff ){
             return <button onClick={()=>{
-                fetch(`http://localhost:8088/serviceTickets/${ticketObject.id}`,{
-                    method: "DELETE"
-                })
-                .then(response => response.json())
+                TicketDelete(ticketObject) //fetch call
                 .then(() => {
                     getAllTickets()
 
@@ -50,38 +48,22 @@ export const Ticket = ({ticketObject, currentUser, employees, getAllTickets}) =>
             emergency: ticketObject.emergency,
             dateCompleted: new Date()
         }
-        return fetch(`http://localhost:8088/serviceTickets/${ticketObject.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(copy)
-        })
-        .then(response=> response.json())
+        return TicketClose(ticketObject, copy)//fetch call 
         .then(getAllTickets)
     }
 
 
     const claimTicket = ()=> {
         if(currentUser.staff){
-            return <button//button will modify the API state and then display the modified ticket
+            return <button  //button will modify the API state and then display the modified ticket
             onClick = {()=> {
-               fetch(`http://localhost:8088/employeeTickets`,{
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        employeeId: userEmployee.id,
-                        serviceTicketId: ticketObject.id
-                    })
-               }) 
-               .then(response=> response.json())
+                TicketClaim(ticketObject, userEmployee)
                .then(()=>{
                   //Get the state from the API again  
                   getAllTickets()
                })
-            }}
+            }} 
+            
             >Claim</button> 
         } 
         else {
